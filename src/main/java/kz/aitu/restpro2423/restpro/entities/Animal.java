@@ -1,17 +1,19 @@
 package kz.aitu.restpro2423.restpro.entities;
 
-public abstract class Animal {
+public class Animal {
 
     public Animal() {
     }
 
 
-    public Animal(String name, int age, String habitat) {
+    public Animal(int id, String name, int age, String habitat) {
+        this.id = id;
         this.name = name;
         this.age = age;
         this.habitat = habitat;
     }
 
+    private int id;
     private String name;
     private int age;
     private String habitat;
@@ -29,6 +31,10 @@ public abstract class Animal {
         return this.habitat;
     }
 
+    public int getId(){
+        return this.id;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -41,7 +47,10 @@ public abstract class Animal {
         this.habitat = habitat;
     }
 
-    public abstract void makeSound();
+    public void setId(int id){
+        this.id = id;
+    }
+
 
 
     @Override

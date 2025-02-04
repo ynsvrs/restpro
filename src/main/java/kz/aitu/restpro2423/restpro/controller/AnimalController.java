@@ -2,8 +2,8 @@ package kz.aitu.restpro2423.restpro.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import kz.aitu.restpro2423.restpro.DBConnection.DBConnectionZookeeper;
-import kz.aitu.restpro2423.restpro.entities.ZooKeeper;
+import kz.aitu.restpro2423.restpro.DBConnection.DBConnectionAnimal;
+import kz.aitu.restpro2423.restpro.entities.Animal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,23 +12,24 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.sql.*;
 
+
 @RestController
-public class ZooKeeperController
+public class AnimalController
 {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @GetMapping("/get_zookeeper")
-    public String getZooKeepers()
+    @GetMapping("/get_animal")
+    public String getAnimal()
     {
-        DBConnectionZookeeper db = new DBConnectionZookeeper();
+        DBConnectionAnimal db = new DBConnectionAnimal();
         Connection con = null;
-        ArrayList<ZooKeeper> zookeepers = new ArrayList<>();
+        ArrayList<Animal> animals = new ArrayList<>();
 
         try
         {
             con = db.connect();
-            zookeepers = db.getZookeepers(con);
+            animals = db.getAnimals(con);
         }
         catch (Exception e)
         {
@@ -43,7 +44,7 @@ public class ZooKeeperController
         String jsonData = null;
         try
         {
-            jsonData = objectMapper.writeValueAsString(zookeepers);
+            jsonData = objectMapper.writeValueAsString(animals);
         }
         catch (JsonProcessingException e)
         {
@@ -52,17 +53,17 @@ public class ZooKeeperController
         return jsonData;
     }
 
-    @GetMapping("/get_zookeeper_by_id")
-    public String getZooKeeperById(@RequestParam int id)
+    @GetMapping("/get_animal_by_id")
+    public String getAnimalById(@RequestParam int id)
     {
-        DBConnectionZookeeper db = new DBConnectionZookeeper();
+        DBConnectionAnimal db = new DBConnectionAnimal();
         Connection con = null;
-        ZooKeeper zookeeper = new ZooKeeper();
+        Animal animal = new Animal();
 
         try
         {
             con = db.connect();
-            zookeeper = db.getZooKeepersById(con, id);
+            animal = db.getAnimalById(con, id);
         }
         catch (Exception e)
         {
@@ -77,7 +78,7 @@ public class ZooKeeperController
         String jsonData = null;
         try
         {
-            jsonData = objectMapper.writeValueAsString(zookeeper);
+            jsonData = objectMapper.writeValueAsString(animal);
         }
         catch (JsonProcessingException e)
         {
@@ -86,17 +87,17 @@ public class ZooKeeperController
         return jsonData;
     }
 
-    @GetMapping("/get_zookeeper_by_name")
-    public String getZooKeepersByName(@RequestParam String name)
+    @GetMapping("/get_animal_by_name")
+    public String getAnimalsByName(@RequestParam String name)
     {
-        DBConnectionZookeeper db = new DBConnectionZookeeper();
+        DBConnectionAnimal db = new DBConnectionAnimal();
         Connection con = null;
-        ArrayList<ZooKeeper> zookeepers = new ArrayList<>();
+        ArrayList<Animal> animals = new ArrayList<>();
 
         try
         {
             con = db.connect();
-            zookeepers = db.getZooKeepersByName(con, name);
+            animals = db.getAnimalByName(con, name);
         }
         catch (Exception e)
         {
@@ -111,7 +112,7 @@ public class ZooKeeperController
         String jsonData = null;
         try
         {
-            jsonData = objectMapper.writeValueAsString(zookeepers);
+            jsonData = objectMapper.writeValueAsString(animals);
         }
         catch (JsonProcessingException e)
         {
@@ -120,18 +121,18 @@ public class ZooKeeperController
         return jsonData;
     }
 
-    @PostMapping("/add_zookeeper")
-    public String addZooKeeper(@RequestParam int id, @RequestParam String name, @RequestParam int age, @RequestParam int experience)
+    @PostMapping("/add_animal")
+    public String addAnimal(@RequestParam int id, @RequestParam String name, @RequestParam int age, @RequestParam String habitat)
     {
-        DBConnectionZookeeper db = new DBConnectionZookeeper();
+        DBConnectionAnimal db = new DBConnectionAnimal();
         Connection con = null;
-        ZooKeeper zookeeper = new ZooKeeper(id, name, age, experience);
-        System.out.println(zookeeper);
+        Animal animal = new Animal(id, name, age, habitat);
+        System.out.println(animal);
 
         try
         {
             con = db.connect();
-            db.addZooKeeper(con, zookeeper);
+            animal = db.addAnimal(con, animal);
         }
         catch (Exception e)
         {
@@ -146,7 +147,7 @@ public class ZooKeeperController
         String jsonData = null;
         try
         {
-            jsonData = objectMapper.writeValueAsString(zookeeper);
+            jsonData = objectMapper.writeValueAsString(animal);
         }
         catch (JsonProcessingException e)
         {
@@ -155,22 +156,22 @@ public class ZooKeeperController
         return jsonData;
     }
 
-    @PostMapping("/update_zookeeper")
-    public String updateZooKeeper(@RequestParam int id, @RequestParam String name, @RequestParam int age, @RequestParam int experience)
+    @PostMapping("/update_animal")
+    public String updateAnimal(@RequestParam int id, @RequestParam String name, @RequestParam int age, @RequestParam String habitat)
     {
-        DBConnectionZookeeper db = new DBConnectionZookeeper();
+        DBConnectionAnimal db = new DBConnectionAnimal();
         Connection con = null;
-        ZooKeeper zookeeper = new ZooKeeper(id, name, age, experience);
-        System.out.println(zookeeper);
+        Animal animal = new Animal(id, name, age, habitat);
+        System.out.println(animal);
 
         try
         {
             con = db.connect();
-            zookeeper = db.updateZooKeeper(con, zookeeper, id);
+            animal = db.updateAnimal(con, animal);
         }
         catch (Exception e)
         {
-            System.out.println("Error: "  + e.toString());
+            System.out.println("Error: " + e.toString());
         }
         finally
         {
@@ -181,7 +182,7 @@ public class ZooKeeperController
         String jsonData = null;
         try
         {
-            jsonData = objectMapper.writeValueAsString(zookeeper);
+            jsonData = objectMapper.writeValueAsString(animal);
         }
         catch (JsonProcessingException e)
         {
@@ -190,19 +191,19 @@ public class ZooKeeperController
         return jsonData;
     }
 
-    @PostMapping("/delete_zookeeper")
-    public String deleteZooKeeper(@RequestParam int id)
+    @PostMapping("/delete_animal")
+    public String deleteAnimal(@RequestParam int id)
     {
-        DBConnectionZookeeper db = new DBConnectionZookeeper();
+        DBConnectionAnimal db = new DBConnectionAnimal();
         Connection con = null;
-        ZooKeeper zookeeper = null;
+        Animal animal = null;
 
         try
         {
             con = db.connect();
-            zookeeper = db.getZooKeepersById(con, id);
-            System.out.println("Deleting Zookeeper: " + zookeeper);
-            db.deleteZooKeeper(con,zookeeper);
+            animal = db.getAnimalById(con, id);
+            System.out.println("Deleting animal: " + animal);
+            db.deleteAnimal(con, animal);
         }
         catch (Exception e)
         {
@@ -217,7 +218,7 @@ public class ZooKeeperController
         String jsonData = null;
         try
         {
-            jsonData = objectMapper.writeValueAsString(zookeeper);
+            jsonData = objectMapper.writeValueAsString(animal);
         }
         catch (JsonProcessingException e)
         {
