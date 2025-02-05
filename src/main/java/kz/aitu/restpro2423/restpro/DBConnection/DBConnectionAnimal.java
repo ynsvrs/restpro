@@ -46,11 +46,11 @@ public class DBConnectionAnimal extends DBConnection
         return animal;
     }
 
-    public ArrayList<Animal> getAnimalByName(Connection con, String title) throws SQLException
+    public ArrayList<Animal> getAnimalByName(Connection con, String name) throws SQLException
     {
-        String query = "select * from test.animal where title = ?";
+        String query = "select * from test.animal where name = ?";
         PreparedStatement st = con.prepareStatement(query);
-        st.setString(1, title);
+        st.setString(1, name);
         ResultSet rs = st.executeQuery();
         ArrayList<Animal> animals = new ArrayList<>();
 
@@ -70,7 +70,7 @@ public class DBConnectionAnimal extends DBConnection
 
     public Animal addAnimal(Connection con, Animal animal) throws SQLException
     {
-        String query = "insert into test.anmal (id, name, age, habitat) values (?, ?, ?, ?)";
+        String query = "insert into test.animal (id, name, age, habitat) values (?, ?, ?, ?)";
         PreparedStatement st = con.prepareStatement(query);
         st.setInt(1, animal.getId());
         st.setString(2, animal.getName());

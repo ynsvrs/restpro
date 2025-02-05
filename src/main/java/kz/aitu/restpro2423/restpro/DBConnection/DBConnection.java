@@ -1,10 +1,6 @@
 package kz.aitu.restpro2423.restpro.DBConnection;
 
-import kz.aitu.restpro2423.restpro.entities.Student;
-
 import java.sql.*;
-import java.util.ArrayList;
-import kz.aitu.restpro2423.restpro.entities.Student;
 
 public class DBConnection {
     private String url = "jdbc:postgresql://localhost:5432/aitu2423";
